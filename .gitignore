@@ -1,0 +1,4 @@
+node_modules
+dist
+vim-main-compile.pdf
+.env

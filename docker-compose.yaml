@@ -1,0 +1,34 @@
+version: '3.8'
+services:
+  postgres:
+    # lts/latest. 14 was released 2021-09-30.
+    build:
+      context: .
+      dockerfile: psql-dockerfile
+    environment:
+      - POSTGRES_DB=${DB_NAME:-strapi}
+      - POSTGRES_USER=${DB_USER:-strapi}
+      - POSTGRES_PASSWORD=${DB_PASS:-IYrYSV:PiGykX2<#hw]n|vw}
+    volumes:
+      - ${HOME_DATA_PATH}/${PSQL_DATA_NAME}:/var/lib/postgresql/data
+      - ${HOME_DATA_PATH}/${PSQL_DATA_NAME}-backups:/backups
+    labels:
+      ofelia.enabled: "true"
+      ofelia.job-exec.create-backup.schedule: "@every 1h"
+      ofelia.job-exec.create-backup.command: "backup.sh"
+      ofelia.job-exec.cleanup-backups.schedule: "@every 24h"
+      ofelia.job-exec.cleanup-backups.command: "cleanup.sh"
+    # NOTE: only enable this for local dev. For deployment normally we don't
+    # need to expose ports since everything is inside an internal network.
+    ports:
+      - 5432:5432
+
+  ofelia:
+    # last release 2021.10.01
+    image: mcuadros/ofelia:v0.3.6
+    command: daemon --docker
+    depends_on:
+      - postgres
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
