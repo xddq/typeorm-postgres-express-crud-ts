@@ -1,20 +1,20 @@
 /**
-*
-* Author: Pierre Dahmani
-* Created: 29.01.2022
-*
-* Description: Basic example middleware which simulates authentication.
-* Will authenticate based on a boolean value inside the header.
-*/
-import {RequestHandler} from 'express';
+ *
+ * Author: Pierre Dahmani
+ * Created: 29.01.2022
+ *
+ * Description: Basic example middleware which simulates authentication.
+ * Will authenticate based on a boolean value inside the header.
+ */
+import { RequestHandler } from "express";
 
 const authenticate: RequestHandler = (req, res, next) => {
-    const authenticated = req.header("authenticated")
+  const authenticated = req.header("authenticated");
 
-    if (authenticated === "true") {
-        return next()
-    }
-    return res.status(403).json({msg: "Unauthorized."})
-}
+  if (authenticated === "true") {
+    return next();
+  }
+  return res.sendStatus(401);
+};
 
-export default authenticate
+export default authenticate;
