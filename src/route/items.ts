@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { Item } from "../entity/Item";
-// import checkAuth from "../middleware/checkAuthenticated"
+import checkAuth from "../middleware/checkAuthenticated";
 /**
  * @author Pierre Dahmani
  * @created 30.01.2022
@@ -11,7 +11,7 @@ import { Item } from "../entity/Item";
 const router = Router();
 
 // post --> HTTP METHOD POST. used to create data for a given entity.
-router.post("", async (req, res) => {
+router.post("", checkAuth, async (req, res) => {
   const { text } = req.body;
   // error out if empty text.
   if (!text) {
@@ -29,7 +29,7 @@ router.get("", async (_, res) => {
 });
 
 // DELETE --> HTTP METHOD DELETE. used to delete data from a given entity.
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", checkAuth, async (req, res) => {
   const { id } = req.params;
   // error out if empty text.
   if (!id) {
@@ -42,7 +42,7 @@ router.delete("/:id", async (req, res) => {
 });
 
 // PUT --> HTTP METHOD PUT. used to update data from a given entity.
-router.put("/:id", async (req, res) => {
+router.put("/:id", checkAuth, async (req, res) => {
   const { id } = req.params;
 
   // error out if required data was not given.

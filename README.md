@@ -12,19 +12,19 @@
 
 - install packages. `npm i`
 - spin up postgres database. `docker-compose up -d`
-- compile .ts to .js. `npm run watch`
-- spin up our express server. `npm run dev`
+- compile .ts to .js. `npm run build`
+- spin up our express server. `npm run start`
 - _...time to query your api! :]_
 
 # Commands to test the api using [httpie](https://github.com/httpie)
 
-- we manage (shopping list) items.
-- since we have added a custom **authentication middleware**, we have to add our
-  authorization header to each request. This will be `authenticated:true`.
+- We manage (shopping list) items.
+- Since we have added a custom **authentication middleware**, we have to add our
+  authorization header to some requests. This will be `authenticated:true`.
 - list all items:
-  - `http -v GET localhost:3001/items authenticated:true`
+  - `http -v GET localhost:3001/items`
 - list one item by id:
-  - `http GET localhost:3001/items/idValueHere authenticated:true`
+  - `http GET localhost:3001/items/idValueHere`
 - create an item:
   - `http POST localhost:3001/items authenticated:true text="green apples"`
 - update an item:
